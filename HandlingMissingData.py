@@ -13,7 +13,7 @@ data ={
 }
 df = pd.DataFrame(data)
 print("sample DataFrame")
-print(df)
+#print(df)
 
 
 """
@@ -59,8 +59,11 @@ print(df)
 """
 
 """
-Interpolate()   
+Interpolate()   .........................................................................................
 check other data , obzerbe then fill it 
+1- time series data
+2- numeric data with trends
+3- avoid dropping rows
 
 10
 20
@@ -74,16 +77,182 @@ linear
 3 - avoid data loss
 
 linear , polynomial , time
-"""
-
 df.interpolate(method="linear" ,axis=0, inplace= True)
 
 
 data2 ={
     "Time":[1,2,3,4,5],
-    "Value":[10,None,30,None,50]
+    "value":[10,None,30,None,50]
 }
-df2 = pd.DataFrame(data)
-print('Before Interpoletion')
+df2 = pd.DataFrame(data2)
 
+print('Before Interpoletion')
+print(df2)
+df2['value'] =df2['value'].interpolate(method="linear")
+print('After Interpolation')
+print(df2)
+"""
+
+#sorting & aggrigation......................................................................................................
+"""
+sorting
+sorting data in one columns
+df.sort_values(by="CoumnName", ascending=True/False, inplace=True )
+df.sort_values(by=["CoumnName","Column2"], ascending=[True/False, true/false], inplace=True )
+
+data3 ={
+    "Name": ['Arun', 'Varun', 'Karun'],
+    "Age": [28,34,22],
+    "salary":[10000,20000,30000]
+}
+
+df3 = pd.DataFrame(data3) 
+
+#single columns
+df3.sort_values(by ="Age", ascending=False , inplace =True)
+print('Sorted Age by Decending')
+print(df3)
+
+#multipleCOlumns
+df3.sort_values(by =["Age","salary"], ascending=[True, False], inplace =True)
+print('Sorted Age & salary by Decending')
+print(df3)
+"""
+
+#summary .......................................................
+"""
+df["Column Name"].mean()
+df["Column Name"].sum()
+df["Column Name"].min()
+df["Column Name"].max()
+
+data3 ={
+    "Name": ['Arun', 'Varun', 'Karun'],
+    "Age": [28,34,22],
+    "salary":[10000,20000,30000]
+}
+
+df3 = pd.DataFrame(data3) 
+
+avg_salary =df['Salary'].mean()
+print(avg_salary)
+min_salary =df['Salary'].min()
+print(min_salary)
+max_salary =df['Salary'].max()
+print(max_salary)
+
+"""
+
+
+#grouping........................................................
+
+data4 ={
+    "Name": ['Arun', 'Varun', 'Karun','Tarun' ,'Narun'],
+    "Age": [28,34,22,34,28],
+    "Salary":[50000,60000,45000, 52000, 480000]
+}
+
+df4 = pd.DataFrame(data4) 
+grouped = df4.groupby("Age")["Salary"].sum()
+#print(grouped)
+"""
+df4.groupby("Age")
+age =22>[45000]
+age =28>[50000,480000]
+age =24 >[60000 , 52000]
+
+[Salary].sum()
+age =22>[45000]
+age =28>[50000,480000]   = 530000
+age =24 >[60000 , 52000] = 11200
+
+"""
+#multiple column grp
+grouped = df4.groupby(["Age","Name"])["Salary"].sum()
+#print(grouped)
+
+
+
+#Common aggrigation functions
+"""
+1- sum() - grp a sum 
+2- mean()
+3- count()
+4- min()
+5- max()
+6- std()
+"""
+
+
+#margging or concatagaring...................................
+"""
+margging
+pd.merge(df1,df2, on="Column_Name",how ="type of  join")
+
+
+"""
+df_customers = pd.DataFrame({
+    'CustomerID':[1,2,3],
+    'Name':['Ramesh','Suresh','Kalpesh'],
+})
+
+df_orders = pd.DataFrame({
+    'CustomerID':[1,2,4],
+    'OrderAmount':[250,450,350]
+})
+
+df_merged = pd.merge(df_customers , df_orders, on="CustomerID", how="inner")
+print("inner join")
+#print(df_merged)
+
+print("\n")
+df_merged = pd.merge(df_customers , df_orders, on="CustomerID", how='outer')
+print("outer join")
+#print(df_merged)
+
+print("\n")
+df_merged = pd.merge(df_customers , df_orders, on="CustomerID", how='left')
+print("left join")
+#print(df_merged)
+
+print("\n")
+df_merged = pd.merge(df_customers , df_orders, on="CustomerID", how='right')
+print("right join")
+#print(df_merged)
+
+#cross marge
+"""
+1st df = m rows
+2nd df = n rows
+cross marge = m*n
+"""
+
+#conctination..............................................................................
+"""
+data frames combine 
+vertically 
+horizontally
+pd.concate([df1, df2], axis =0, ignore_index= true)
+
+[df1,df2] =
+axis = 1
+
+ignore_index = True
+"""
+df_Region1 = pd.DataFrame({
+    'CustomerID':[1,2],
+    'Name':['Mina','Raju']
+})
+df_Region2 = pd.DataFrame({
+    'CustomerID':[3,4],
+    'Name':['Mithu','Lali']
+})
+#defult =vertically
+df_concat = pd.concat([df_Region1, df_Region2], ignore_index=True)
+print(df_concat)
+
+print("\n")
+#horizontally
+df_concat = pd.concat([df_Region1, df_Region2],axis=1, ignore_index=True)
+print(df_concat)
 

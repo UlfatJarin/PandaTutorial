@@ -1,2 +1,1 @@
-df.dropna(inplace= True)
-print(df)
+df['Age']>30
